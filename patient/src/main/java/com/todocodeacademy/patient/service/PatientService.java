@@ -2,9 +2,11 @@ package com.todocodeacademy.patient.service;
 
 import com.todocodeacademy.patient.model.Patient;
 import com.todocodeacademy.patient.repository.IPatientRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PatientService implements IPatientService{
 
 
