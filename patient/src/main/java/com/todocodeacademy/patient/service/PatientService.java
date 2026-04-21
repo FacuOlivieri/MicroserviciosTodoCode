@@ -31,8 +31,8 @@ public class PatientService implements IPatientService{
     }
 
     @Override
-    public void editPatient(Patient patient) {
-        Patient patientFound = patientRepository.findById(patient.getIdPatient()).orElse(null);
+    public void editPatient(Long originalId, Patient patient) {
+        Patient patientFound = patientRepository.findById(originalId).orElse(null);
 
         if (patientFound != null) {
             patientFound.setFirstName(patient.getFirstName());
