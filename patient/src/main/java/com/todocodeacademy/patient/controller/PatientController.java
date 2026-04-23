@@ -29,6 +29,16 @@ public class PatientController {
         return ResponseEntity.ok(patientService.findById(id));
     }
 
+    @GetMapping("/bringByDni/{dni}")
+    public ResponseEntity<Patient> getPatientByDni(@PathVariable String dni) {
+        return ResponseEntity.ok(patientService.findByDni(dni));
+    }
+    /*
+        Este endpoint se tuvo que crear por el saveTurno que recibe un paciente pero buscandolo por DNI,
+        se tuvo que crear este endpoint
+     */
+
+
     @PostMapping
     public ResponseEntity<Patient> createPatient(@RequestBody Patient patient) {
         patientService.savePatient(patient);

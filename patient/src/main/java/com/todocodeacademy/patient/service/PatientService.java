@@ -50,4 +50,10 @@ public class PatientService implements IPatientService{
     public void deleteById(Long id) {
         patientRepository.deleteById(id);
     }
+
+    @Override
+    public Patient findByDni(String dni) {
+        return patientRepository.findByDni(dni);
+        //Aca se creo un metodo propio para hacer una consulta personalizada en el Repository
+    }
 }

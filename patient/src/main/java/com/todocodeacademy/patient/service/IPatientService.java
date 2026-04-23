@@ -10,4 +10,5 @@ public interface IPatientService {
     List<Patient> findAll();
     void editPatient(Long originalId, Patient patient);
     void deleteById(Long id);
+    Patient findByDni(String dni);
 }

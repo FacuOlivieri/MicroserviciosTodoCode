@@ -1,5 +1,6 @@
 package com.todocodeacademy.appointment.controller;
 
+import com.todocodeacademy.appointment.dto.AppointmentDTO;
 import com.todocodeacademy.appointment.exception.AppointmentNotFoundException;
 import com.todocodeacademy.appointment.model.Appointment;
 import com.todocodeacademy.appointment.service.AppointmentService;
@@ -7,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -35,11 +34,13 @@ public class AppointmentController {
 
 
     @PostMapping
-    public ResponseEntity<String> createAppointment(@RequestBody LocalDate appointmentDate,
-                                                         @RequestBody String treatment,
-                                                         @RequestBody String dniPatient){
+    public ResponseEntity<String> createAppointment(@RequestBody AppointmentDTO appointmentDTO){
 
-        appointmentService.saveAppointment(appointmentDate, treatment, dniPatient);
+        appointmentService.saveAppointment (appointmentDTO.getAppointmentDate(),
+                                            appointmentDTO.getTreatment(),
+                                            appointmentDTO.getDniPatient()
+                                            );
+
         return ResponseEntity.ok("Appointment created");
     }
 
