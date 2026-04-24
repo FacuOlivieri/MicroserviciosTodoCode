@@ -5,12 +5,13 @@ import com.todocodeacademy.appointment.model.Appointment;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface IAppointmentService {
-    List<Appointment> findAllAppointments();
+    List<Appointment> findAllAppointments() throws AppointmentNotFoundException;
     void saveAppointment(LocalDate date, String treatment, String dniPatient);
-    void deleteAppointment(Long id);
-    Appointment findAppointmentById(Long id);
+    void deleteAppointment(Long id) throws AppointmentNotFoundException;
+    Optional<Appointment> findAppointmentById(Long id);
     void updateAppointment(Long id, Appointment appointment) throws AppointmentNotFoundException;
 
 }

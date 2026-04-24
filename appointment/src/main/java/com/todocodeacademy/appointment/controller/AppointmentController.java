@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/appointments")
@@ -20,14 +21,14 @@ public class AppointmentController {
 
 
     @GetMapping
-    public ResponseEntity<List<Appointment>> getAllAppointments(){
+    public ResponseEntity<List<Appointment>> getAllAppointments() throws AppointmentNotFoundException {
         return ResponseEntity.ok(appointmentService.findAllAppointments());
     }
 
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Appointment> getAppointmentById(@PathVariable Long id){
+    public ResponseEntity<Optional<Appointment>> getAppointmentById(@PathVariable Long id){
         return ResponseEntity.ok(appointmentService.findAppointmentById(id));
     }
 
@@ -47,7 +48,7 @@ public class AppointmentController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Appointment> updateAppointment(@PathVariable Long id,
+    public ResponseEntity <Optional<Appointment>> updateAppointment(@PathVariable Long id,
                                                     @RequestBody Appointment appointmentToUpdate) throws AppointmentNotFoundException {
         appointmentService.updateAppointment(id, appointmentToUpdate);
 
@@ -57,7 +58,7 @@ public class AppointmentController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAppointment(@PathVariable Long id){
+    public ResponseEntity<Void> deleteAppointment(@PathVariable Long id) throws AppointmentNotFoundException {
         appointmentService.deleteAppointment(id);
         return ResponseEntity.noContent().build();
     }

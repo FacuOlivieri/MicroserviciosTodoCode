@@ -1,6 +1,7 @@
 package com.todocodeacademy.appointment.service;
 
 import com.todocodeacademy.appointment.exception.AppointmentNotFoundException;
+import com.todocodeacademy.appointment.exception.PatientNotFoundException;
 import com.todocodeacademy.appointment.model.Appointment;
 import com.todocodeacademy.appointment.model.Patient;
 import com.todocodeacademy.appointment.repository.IAppointmentRepository;
@@ -9,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -25,8 +27,13 @@ public class AppointmentService implements IAppointmentService{
 
 
     @Override
-    public List<Appointment> findAllAppointments() {
-        return appointmentRepository.findAll();
+    public List<Appointment> findAllAppointments() throws AppointmentNotFoundException {
+        if (!appointmentRepository.findAll().isEmpty()) {
+            return appointmentRepository.findAll();
+        } else {
+            throw new AppointmentNotFoundException("There are not appointments to be found");
+        }
+
     }
 
     @Override
@@ -38,6 +45,7 @@ public class AppointmentService implements IAppointmentService{
             dniPatient porque depende de la variable/dato en concreto que se traiga,
             Patient.class porque vamos a traer un objeto del mismo
          */
+
         Patient foundPatient = consumeApi.getForObject("http://localhost:9001/api/v1/patients/bringByDni/" + dniPatient,
                                                         Patient.class);
 
@@ -46,7 +54,10 @@ public class AppointmentService implements IAppointmentService{
         String patientFullName = "";
         if (foundPatient != null) {
             patientFullName = foundPatient.getFirstName() + " " + foundPatient.getLastName();
+        } else {
+            throw new PatientNotFoundException("Patient not found");
         }
+
 
 
         //Creamos el objeto
@@ -56,19 +67,25 @@ public class AppointmentService implements IAppointmentService{
                 .patientFullName(patientFullName)
                 .build();
 
+
+
         //Lo persistimos
         appointmentRepository.save(newAppointment);
 
     }
 
     @Override
-    public void deleteAppointment(Long id) {
-        appointmentRepository.deleteById(id);
+    public void deleteAppointment(Long id) throws AppointmentNotFoundException {
+        try {
+            appointmentRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new AppointmentNotFoundException("Appointment with id: " + id + " not found");
+        }
     }
 
     @Override
-    public Appointment findAppointmentById(Long id) {
-        return appointmentRepository.findById(id).orElse(null);
+    public Optional<Appointment> findAppointmentById(Long id) {
+        return appointmentRepository.findById(id);
     }
 
     @Override
