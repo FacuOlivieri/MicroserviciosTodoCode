@@ -82,8 +82,15 @@ public class IngredienteService implements IIngredienteService {
     }
 
     @Override
-    public List<Ingrediente> encontrarIngredientesSegunPlato(String nombrePlato) {
-       return ingredienteRepository.encontrarIngredientesPertenecientesAPlato(nombrePlato);
+    public List<IngredienteDTO> encontrarIngredientesSegunPlato(String nombrePlato) {
+        List<Ingrediente> listaIngredientes = ingredienteRepository.encontrarIngredientesPertenecientesAPlato(nombrePlato);
+        List<IngredienteDTO> ingredientesDTO = new ArrayList<>();
+        for (Ingrediente ingrediente : listaIngredientes) {
+            IngredienteDTO ingredienteDTO = Mapper.mapToDTO(ingrediente);
+            ingredientesDTO.add(ingredienteDTO);
+        }
+
+        return ingredientesDTO;
     }
 
 

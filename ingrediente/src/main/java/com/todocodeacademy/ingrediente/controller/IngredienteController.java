@@ -44,6 +44,9 @@ public class IngredienteController {
         return ResponseEntity.noContent().build();
     }
 
-
+    @GetMapping("/traerIngredientes/{plato}")
+    private ResponseEntity<List<IngredienteDTO>> traerIngredientesPorPlato(@PathVariable String plato) {
+        return ResponseEntity.ok(ingredienteService.encontrarIngredientesSegunPlato(plato));
+    }
 
 }

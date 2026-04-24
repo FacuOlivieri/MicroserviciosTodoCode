@@ -13,5 +13,5 @@ public interface IIngredienteService {
     void eliminarIngrediente(Long id) throws IngredienteNotFoundException;
     IngredienteDTO encontrarIngredientePorId(Long id) throws IngredienteNotFoundException;
     List<IngredienteDTO> encontrarTodosLosIngredientes();
-    List<Ingrediente> encontrarIngredientesSegunPlato(String nombrePlato);
+    List<IngredienteDTO> encontrarIngredientesSegunPlato(String nombrePlato);
 }
