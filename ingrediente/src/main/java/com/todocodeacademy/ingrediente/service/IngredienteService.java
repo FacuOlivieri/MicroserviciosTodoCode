@@ -80,4 +80,11 @@ public class IngredienteService implements IIngredienteService {
 
         return ingredientesDTO;
     }
+
+    @Override
+    public List<Ingrediente> encontrarIngredientesSegunPlato(String nombrePlato) {
+       return ingredienteRepository.encontrarIngredientesPertenecientesAPlato(nombrePlato);
+    }
+
+
 }

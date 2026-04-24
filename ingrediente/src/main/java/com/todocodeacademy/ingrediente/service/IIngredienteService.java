@@ -2,6 +2,7 @@ package com.todocodeacademy.ingrediente.service;
 
 import com.todocodeacademy.ingrediente.dto.IngredienteDTO;
 import com.todocodeacademy.ingrediente.exception.IngredienteNotFoundException;
+import com.todocodeacademy.ingrediente.model.Ingrediente;
 
 import java.util.List;
 
@@ -12,4 +13,5 @@ public interface IIngredienteService {
     void eliminarIngrediente(Long id) throws IngredienteNotFoundException;
     IngredienteDTO encontrarIngredientePorId(Long id) throws IngredienteNotFoundException;
     List<IngredienteDTO> encontrarTodosLosIngredientes();
+    List<Ingrediente> encontrarIngredientesSegunPlato(String nombrePlato);
 }
