@@ -34,7 +34,7 @@ public class PatientController {
         return ResponseEntity.ok(patientService.findByDni(dni));
     }
     /*
-        Este endpoint se tuvo que crear por el saveTurno que recibe un paciente pero buscandolo por DNI,
+        Este endpoint se tuvo que crear por el saveTurno que recibe un paciente, pero buscándolo por DNI,
         se tuvo que crear este endpoint
      */
 

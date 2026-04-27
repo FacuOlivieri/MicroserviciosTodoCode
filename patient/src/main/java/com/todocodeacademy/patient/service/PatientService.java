@@ -1,10 +1,8 @@
 package com.todocodeacademy.patient.service;
 
-import com.todocodeacademy.patient.exception.PatientAlreadyExitsException;
 import com.todocodeacademy.patient.exception.PatientNotFoundException;
 import com.todocodeacademy.patient.model.Patient;
 import com.todocodeacademy.patient.repository.IPatientRepository;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,11 +20,7 @@ public class PatientService implements IPatientService{
 
     @Override
     public void savePatient(Patient patient) {
-         if (patientRepository.existsById(patient.getIdPatient())){
-             throw new PatientAlreadyExitsException("Patient already exists with id: " + patient.getIdPatient());
-         } else {
-             patientRepository.save(patient);
-         }
+         patientRepository.save(patient);
     }
 
     @Override
@@ -34,7 +28,7 @@ public class PatientService implements IPatientService{
         if (patientRepository.findById(id).isPresent()) {
             return patientRepository.findById(id).get();
         }  else {
-            throw new PatientNotFoundException("The Patient with id " + id + "couldn't be found");
+            throw new PatientNotFoundException("The Patient with id " + id + " couldn't be found");
         }
 
     }
@@ -59,6 +53,8 @@ public class PatientService implements IPatientService{
             patientFound.setBirthDate(patient.getBirthDate());
 
             patientRepository.save(patientFound);
+        } else {
+            throw new PatientNotFoundException("The Patient with id " + originalId + " couldn't be found");
         }
 
     }

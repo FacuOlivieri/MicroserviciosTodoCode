@@ -1,5 +1,6 @@
 package com.todocodeacademy.appointment.service;
 
+import com.todocodeacademy.appointment.dto.AppointmentDTO;
 import com.todocodeacademy.appointment.exception.AppointmentNotFoundException;
 import com.todocodeacademy.appointment.model.Appointment;
 
@@ -12,6 +13,5 @@ public interface IAppointmentService {
     void saveAppointment(LocalDate date, String treatment, String dniPatient);
     void deleteAppointment(Long id) throws AppointmentNotFoundException;
     Optional<Appointment> findAppointmentById(Long id);
-    void updateAppointment(Long id, Appointment appointment) throws AppointmentNotFoundException;
-
+    void updateAppointment(Long id, String dniPatient, AppointmentDTO appointment) throws AppointmentNotFoundException;
 }

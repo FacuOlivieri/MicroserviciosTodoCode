@@ -47,12 +47,15 @@ public class AppointmentController {
 
 
 
-    @PutMapping("/{id}")
-    public ResponseEntity <Optional<Appointment>> updateAppointment(@PathVariable Long id,
-                                                    @RequestBody Appointment appointmentToUpdate) throws AppointmentNotFoundException {
-        appointmentService.updateAppointment(id, appointmentToUpdate);
+    @PutMapping
+    public ResponseEntity <Optional<Appointment>> updateAppointment(@RequestParam Long id_appointment,
+                                                    @RequestParam String dniPatient,
+                                                    @RequestBody AppointmentDTO appointmentToUpdate) throws AppointmentNotFoundException {
 
-        return ResponseEntity.ok(appointmentService.findAppointmentById(id));
+        appointmentService.updateAppointment (id_appointment, dniPatient, appointmentToUpdate);
+
+
+        return ResponseEntity.ok(appointmentService.findAppointmentById(id_appointment));
     }
 
 

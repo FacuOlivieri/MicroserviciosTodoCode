@@ -1,5 +1,6 @@
 package com.todocodeacademy.appointment.service;
 
+import com.todocodeacademy.appointment.dto.AppointmentDTO;
 import com.todocodeacademy.appointment.exception.AppointmentNotFoundException;
 import com.todocodeacademy.appointment.exception.PatientNotFoundException;
 import com.todocodeacademy.appointment.model.Appointment;
@@ -89,16 +90,22 @@ public class AppointmentService implements IAppointmentService{
     }
 
     @Override
-    public void updateAppointment(Long id, Appointment appointment) throws AppointmentNotFoundException {
-        Appointment updatedAppointment = appointmentRepository.findById(id).orElse(null);
+    public void updateAppointment(Long id_appointment, String dniPatient, AppointmentDTO appointment) throws AppointmentNotFoundException {
+        Appointment updatedAppointment = appointmentRepository.findById(id_appointment).orElse(null);
+        Patient foundPatient = consumeApi.getForObject("http://localhost:9001/api/v1/patients/bringByDni/" + dniPatient,
+                Patient.class);
 
-       if (updatedAppointment != null)  {
-            updatedAppointment.setDate(appointment.getDate());
+        if (foundPatient == null) {
+            throw new PatientNotFoundException("Patient not found");
+        }
+
+       if (updatedAppointment != null )  {
+            updatedAppointment.setDate(appointment.getAppointmentDate());
             updatedAppointment.setTreatment(appointment.getTreatment());
-            updatedAppointment.setPatientFullName(appointment.getPatientFullName());
+            updatedAppointment.setPatientFullName(foundPatient.getFirstName() + " " + foundPatient.getLastName());
             appointmentRepository.save(updatedAppointment);
         } else {
-            throw new AppointmentNotFoundException("There is no appointment with id: " + id);
+            throw new AppointmentNotFoundException("There is no appointment with id: " + id_appointment);
         }
     }
 
